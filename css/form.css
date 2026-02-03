@@ -134,7 +134,7 @@ textarea.form-control {
 /* Кнопка отправки */
 .btn-form {
     width: 15vw;
-	height: 15vh;
+	height: 5vh;
     padding: 16px;
     background: black;
     color: white;
@@ -258,4 +258,5 @@ textarea.form-control {
 
 .modal-content::-webkit-scrollbar-thumb:hover {
     background: #a8a8a8;
+
 }
