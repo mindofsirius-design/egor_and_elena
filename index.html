@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Свадьба</title>
+    <link rel="icon" type="image/x-icon" href="images/icon.png">
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Наши стили -->
+    <link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/form.css">
+    
+</head>
+<body>
+    <!-- Кнопка вверх -->
+    <button id="scrollToTop" class="scroll-top-btn">	
+		<i class="fas fa-chevron-up"></i>	
+	</button>
+	
+	<!-- Кнопка вниз -->
+	<div id="scrollToDown" class="nav-arrow">	
+		<i class="fas fa-chevron-down"></i>	
+	</div>
+
+    <!-- Основной контейнер для модулей -->
+    <div id="main-container" class="modules-container">
+        <!-- Модуль 1 -->
+        <section class="module module-1"  id="module-1">
+            <div class="module-content">
+            </div>
+        </section>
+
+        <!-- Модуль 2 -->
+        <section class="module module-2" id="module-2">
+            <div class="module-content">
+            </div>
+        </section>
+
+        <!-- Модуль 3 -->
+        <section class="module module-3" id="module-3">
+            <div class="module-content"></div>
+        </section>
+
+        <!-- Модуль 4 -->
+        <section class="module module-4" id="module-4">
+            <div class="module-content">
+            </div>
+        </section>
+
+        <!-- Модуль 5 -->
+        <section class="module module-5" id="module-5">
+            <div class="module-content">
+            </div>
+        </section>
+        
+        <!-- Модуль 6 -->
+        <section class="module module-6" id="module-6">
+            <div id="divOpenBtn" class="module-content">
+				<button type="submit" class = "btn-form" id="openBtn">Заполнить форму</button>
+            </div>
+        </section>
+         		
+    </div>
+	
+	<div class="modal-overlay" id="modal">
+		<div class="modal-content">
+			<div class="confirmation-form">
+				<h1 class="form-title">Пожалуйста, подтвердите присутствие</h1>
+				
+				<form id="attendanceForm">
+					<!-- Имя и фамилия -->
+					<div class="form-group">
+						<label class="form-label" for="name">Имя и фамилия</label>
+						<input type="text" class="form-control" id="name" placeholder="Введите ваше имя и фамилию" required>
+					</div>
+					
+					<!-- Разделите с нами этот день? -->
+					<div class="form-group">
+						<label class="form-label">Разделите с нами этот день?</label>
+						<div class="row option-group">
+							<div class="col-auto form-check">
+								<label class="form-check-label" for="attendYes">
+								<input class="form-check-input" type="radio" name="attend" id="attendYes" value="Да!" required>
+									Да!
+								</label>
+							</div>
+							<div class="form-check col-auto">
+								<label class="form-check-label" for="attendNo">
+									<input class="form-check-input" type="radio" name="attend" id="attendNo" value="К сожалению, не получится">
+									К сожалению, не получится
+								</label>
+							</div>
+						</div>
+					</div>
+					
+					<!-- Планируется приехать -->
+					<div class="form-group">
+						<label class="form-label">Планируется приехать</label>
+						<div class="row option-group">
+							<div class="col-auto form-check">
+								<label class="form-check-label" for="alone">
+								<input class="form-check-input" type="radio" name="companion" id="alone" value="Один/одна" required>
+									Один/одна
+								</label>
+							</div>
+							<div class="col-auto form-check">
+								<label class="form-check-label" for="withCouple">
+								<input class="form-check-input" type="radio" name="companion" id="withCouple" value="С парой">
+									С парой
+								</label>
+							</div>
+						</div>
+					</div>
+					
+					<!-- Нужен ли трансфер -->
+					<div class="form-group">
+						<label class="form-label">Нужен ли трансфер?</label>
+						<div class="row option-group">
+							<div class="col-auto form-check">
+								<label class="form-check-label" for="transferYes">
+								<input class="form-check-input" type="radio" name="transfer" id="transferYes" value="Да" required>
+									Да
+								</label>
+							</div>
+							<div class="col-auto form-check">	
+								<label class="form-check-label" for="transferNo">
+								<input class="form-check-input" type="radio" name="transfer" id="transferNo" value="Нет">
+									Нет
+								</label>
+							</div>
+						</div>
+						<div class="form-note">Если да, укажите адрес ниже.</div>
+					</div>
+					
+					<!-- Дополнительная информация -->
+					<div class="form-group">
+						<label class="form-label" for="additionalInfo">Дополнительная информация</label>
+						<textarea class="form-control" id="additionalInfo" placeholder="Вопросы, пожелания и т.д."></textarea>
+					</div>
+					
+					<!-- Кнопка отправки -->
+					<button type="submit" class="btn-form">Отправить подтверждение</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Наши скрипты -->
+    <script src="js/main.js"></script>
+    <script src="js/form.js"></script>
+</body>
+</html>
