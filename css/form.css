@@ -134,7 +134,7 @@ textarea.form-control {
 /* Кнопка отправки */
 .btn-form {
     width: 15vw;
-	height: 5vh;
+	height: 10vh;
     padding: 16px;
     background: black;
     color: white;
@@ -260,3 +260,4 @@ textarea.form-control {
     background: #a8a8a8;
 
 }
+
