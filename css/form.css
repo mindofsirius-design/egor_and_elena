@@ -133,17 +133,32 @@ textarea.form-control {
 
 /* Кнопка отправки */
 .btn-form {
-    width: 15vw;
-	height: 10vh;
-    padding: 16px;
+	/* Адаптивный padding */
+	padding: clamp(12px, 1.5vh, 20px) clamp(24px, 4vw, 48px);
+	/* Адаптивная ширина - на мобильных занимает всю ширину, на десктопе - по содержимому */
+    width: 100%;
+    max-width: 400px;
+    
     background: black;
     color: white;
     border: none;
     border-radius: 3px;
-    font-size: 1rem;
+    
+    /* Адаптивный размер текста */
+    font-size: clamp(0.875rem, 1.5vw, 1.125rem);
     font-weight: 500;
+    
     cursor: pointer;
     transition: var(--transition);
+    
+    /* Центрирование текста и управление высотой */
+    text-align: center;
+    line-height: 1.4;
+    display: inline-block;
+    
+    /* Убираем фиксированную высоту */
+    min-height: unset;
+    height: auto;
 }
 
 .btn-form:hover {
@@ -159,14 +174,25 @@ textarea.form-control {
 }
 
 #divOpenBtn{
-	margin-top:30vh;
+	margin-top:25vh;
+}
+
+#btnSend{
+	margin-left: auto;
+	margin-right: auto;
 }
 
 /* Адаптивность */
 @media (max-width: 768px) {
+	
 	#divOpenBtn{
 	margin-top:45vh;
 	}
+	.btn-form {
+        width: auto;
+        min-width: 200px;
+        max-width: none;
+    }
     .confirmation-form {
         padding: 25px;
     }
@@ -258,6 +284,4 @@ textarea.form-control {
 
 .modal-content::-webkit-scrollbar-thumb:hover {
     background: #a8a8a8;
-
 }
-
