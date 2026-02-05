@@ -252,7 +252,7 @@ class ScrollManager {
 		if (this.isScrolling || this.isAnimating) return;
 		
 		const swipeThreshold = 50; // Минимальное расстояние свайпа
-		const speedThreshold = 0.3; // Минимальная скорость свайпа (пикселей/мс)
+		const speedThreshold = 1; // Минимальная скорость свайпа (пикселей/мс)
 		const diff = startY - endY;
 		const speed = Math.abs(diff) / duration;
 		
@@ -311,4 +311,5 @@ if (typeof MutationObserver !== 'undefined') {
         childList: true,
         subtree: true
     });
+
 }
