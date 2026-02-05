@@ -315,7 +315,7 @@ function hidePreloader() {
 document.addEventListener('DOMContentLoaded', () => {
 	
 	// Резервный таймер на скрытие иникатора загрузки
-	setTimeout(hidePreloader, 5000);
+	setTimeout(hidePreloader, 10000);
 		
     scrollManager = new ScrollManager();
 	scrollManager.refreshModules();
@@ -348,4 +348,5 @@ window.addEventListener('orientationchange', function() {
     setTimeout(function() {
         window.scrollTo(0, 1);
     }, 100);
+
 });
