@@ -1,7 +1,6 @@
 :root {
     --dark-gray: #2c3e50;
     --light-gray: #ecf0f1;
-    --border-radius: 3px;
     --transition: all 0.3s ease;
     --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.15);
@@ -29,15 +28,15 @@
 }
 
 .modal-content {
-    background: white;
+    background-color: #ffffff;
     width: 90%;
     max-width: 500px;
     margin: 20px;
-    border-radius: var(--border-radius);
+    border-radius: 3px;
     box-shadow: var(--shadow-hover);
     transform: translateY(-20px);
     transition: transform 0.3s ease;
-    max-height: 95vh;
+    max-height: 95%;
     overflow-y: auto;
 	overflow-x: hidden; /* Блокирует горизонтальную прокрутку */
 }
@@ -46,6 +45,11 @@
     transform: translateY(0);
 }
 
+/* Стили формы */
+.confirmation-form {
+	background-color: #ffffff;
+    padding: 40px;
+}
 
 /* Кнопка закрыть */
 .close-btn {
@@ -68,10 +72,7 @@
 	transform: scale(1.1) rotate(90deg);
 }
 
-/* Стили формы */
-.confirmation-form {
-    padding: 40px;
-}
+
 
 .form-title {
     color: var(--dark-gray);
@@ -102,7 +103,6 @@
     border-radius: 3px;
     font-size: 1rem;
     color: var(--dark-gray);
-    background: white;
     transition: var(--transition);
     box-sizing: border-box;
 }
@@ -114,7 +114,8 @@
 }
 
 textarea.form-control {
-    resize: vertical;
+	resize: none; /* Запрещаем ручное изменение размера */
+	overflow-y: auto;
     font-family: inherit;
 }
 
@@ -129,7 +130,7 @@ textarea.form-control {
 .form-check {
     display: flex;
     align-items: center;
-    margin: 0;
+    margin-left: 10px;
 }
 
 .form-check-input {

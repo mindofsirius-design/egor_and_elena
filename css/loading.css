@@ -1,0 +1,180 @@
+/* Основные стили прелоадера */
+#neo-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Контейнер анимации */
+.neo-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+}
+
+/* Внешнее кольцо с градиентом */
+.outer-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 4px solid transparent;
+    border-top: 4px solid #fff;
+    border-right: 4px solid #fff;
+    border-radius: 50%;
+    animation: spin-clockwise 2s linear infinite;
+    box-shadow: 
+        0 0 20px rgba(255, 255, 255, 0.3),
+        inset 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+/* Внутреннее кольцо */
+.inner-ring {
+    position: absolute;
+    width: 70%;
+    height: 70%;
+    top: 15%;
+    left: 15%;
+    border: 3px solid transparent;
+    border-bottom: 3px solid #fff;
+    border-left: 3px solid #fff;
+    border-radius: 50%;
+    animation: spin-counterclockwise 1.5s linear infinite;
+}
+
+/* Центральная точка с пульсацией */
+.center-dot {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 50%;
+    animation: dotPulse 1.5s ease-in-out infinite;
+    box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.7);
+}
+
+/* Лучи */
+.rays {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.ray {
+    position: absolute;
+    width: 2px;
+    height: 30px;
+    background: #fff;
+    left: 50%;
+    top: 0;
+    transform-origin: center 100px;
+    opacity: 0.7;
+}
+
+.ray:nth-child(1) { transform: rotate(0deg); }
+.ray:nth-child(2) { transform: rotate(45deg); }
+.ray:nth-child(3) { transform: rotate(90deg); }
+.ray:nth-child(4) { transform: rotate(135deg); }
+.ray:nth-child(5) { transform: rotate(180deg); }
+.ray:nth-child(6) { transform: rotate(225deg); }
+.ray:nth-child(7) { transform: rotate(270deg); }
+.ray:nth-child(8) { transform: rotate(315deg); animation-delay: 0.5s; }
+
+/* Анимации */
+@keyframes spin-clockwise {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes spin-counterclockwise {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(-360deg); }
+}
+
+@keyframes dotPulse {
+    0%, 100% { 
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+        box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.7);
+    }
+    50% { 
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0.7;
+        box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.9);
+    }
+}
+
+/* Текст загрузки */
+.loading-text {
+    position: absolute;
+    bottom: -40px;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    animation: text-fade 2s ease-in-out infinite;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+@keyframes text-fade {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* Мелкие частицы */
+.particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0;
+}
+
+.particle:nth-child(1) {
+    top: 20%;
+    left: 20%;
+    animation: particle-float 3s infinite 0.2s;
+}
+
+.particle:nth-child(2) {
+    top: 70%;
+    left: 80%;
+    animation: particle-float 3s infinite 0.8s;
+}
+
+.particle:nth-child(3) {
+    top: 80%;
+    left: 20%;
+    animation: particle-float 3s infinite 1.4s;
+}
+
+@keyframes particle-float {
+    0%, 100% {
+        transform: translateY(0) scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: translateY(-20px) scale(1);
+        opacity: 0.6;
+    }
+}

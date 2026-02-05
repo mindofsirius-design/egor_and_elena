@@ -5,9 +5,13 @@ class ScrollManager {
         this.scrollToDownBtn = document.getElementById('scrollToDown');
         this.modules = document.querySelectorAll('.module');
         this.isScrolling = false;
-        this.scrollDelay = 100; // Задержка между прокрутками в мс
+        this.scrollDelay = 200; // Задержка между прокрутками в мс
         this.lastScrollTime = 0;
-        
+        this.options = {
+			verticalScroll: false, // или значение по умолчанию
+			animationDuration: 500
+		};
+		this.isAnimating = false;
         this.init();
     }
     
@@ -19,7 +23,7 @@ class ScrollManager {
         }
         
         this.setupEventListeners();
-        this.toggleScrollButtons(); // Объединил две функции в одну
+        this.toggleScrollButtons();
         
     }
     
@@ -102,21 +106,16 @@ class ScrollManager {
         
     // Настройка обработчиков событий
     setupEventListeners() {
-        // Проверка существования кнопок
-        if (this.scrollToTopBtn) {
-            this.scrollToTopBtn.addEventListener('click', () => {
-                this.container.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
-        }
-        
-        if (this.scrollToDownBtn) {
-            this.scrollToDownBtn.addEventListener('click', () => {
-                this.scrollToNext();
-            });
-        }
+		
+		//Настройка кнопки "Вверх"
+		this.scrollToTopBtn.addEventListener('click', () => {
+			this.container.scrollTo({ top: 0, behavior: 'smooth' });
+		});
+		
+        //Настройка кнопки "Вниз"
+		this.scrollToDownBtn.addEventListener('click', () => {
+			this.scrollToNext();
+		});
         
         // Прокрутка контейнера
         this.container.addEventListener('scroll', () => {
@@ -237,7 +236,7 @@ class ScrollManager {
 			touchEndY = e.changedTouches[0].clientY;
 			const touchEndTime = Date.now();
 			
-			this.handleSwipe(touchStartY, touchEndY, touchEndTime - touchStartTime);
+			//this.handleSwipe(touchStartY, touchEndY, touchEndTime - touchStartTime);
 			isTouchActive = false;
 		}, { passive: true });
 
@@ -251,8 +250,8 @@ class ScrollManager {
 	handleSwipe(startY, endY, duration) {
 		if (this.isScrolling || this.isAnimating) return;
 		
-		const swipeThreshold = 50; // Минимальное расстояние свайпа
-		const speedThreshold = 1; // Минимальная скорость свайпа (пикселей/мс)
+		const swipeThreshold = 500; // Минимальное расстояние свайпа
+		const speedThreshold = 100; // Минимальная скорость свайпа (пикселей/мс)
 		const diff = startY - endY;
 		const speed = Math.abs(diff) / duration;
 		
@@ -283,8 +282,30 @@ class ScrollManager {
     }
 }
 
+// Скрытие индикатора загрузки страницы
+function hidePreloader() {
+	const loader = document.getElementById('neo-loader');
+	
+	setTimeout(() => {
+		loader.style.opacity = '0';
+		loader.style.transform = 'scale(1.2)';
+		
+		setTimeout(() => {
+			loader.style.display = 'none';
+			//loader.parentNode.removeChild(loader);
+			//loader.remove();
+		}, 800);
+	}, 1500);
+}
+    
+
+
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
+	
+	// Резервный таймер на скрытие иникатора загрузки
+	setTimeout(hidePreloader, 5000);
+		
     const scrollManager = new ScrollManager();
     
     // Добавляем поддержку обновления модулей
@@ -299,17 +320,6 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Доступные методы: scrollToNext(), scrollToPrev(), scrollToModule(index), refreshModules()');
 });
 
-// Также можно добавить обработку динамического контента
-if (typeof MutationObserver !== 'undefined') {
-    const observer = new MutationObserver(() => {
-        if (window.scrollManager) {
-            window.scrollManager.refreshModules();
-        }
-    });
-    
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true
-    });
 
-}
+//Когда страница загрузилась вызываем hidePreloader
+window.addEventListener('load', hidePreloader);
