@@ -85,8 +85,8 @@ body {
 /* Кнопка прокрутки вверх */
 .scroll-top-btn {
     position: fixed;
-    bottom: 40px;
-    right: 40px;
+    bottom: 1vh;
+    right: 2vw;
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -103,7 +103,6 @@ body {
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     opacity: 0;
     visibility: hidden;
-    transform: translateY(20px);
 	
 	mix-blend-mode: difference;
 	/* Изолирует элемент от фона для правильной работы blend-mode*/
@@ -113,7 +112,7 @@ body {
 .scroll-top-btn:hover {
     background: rgba(255, 255, 255, 0.2);
     border-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-4px) scale(1.05);
+    transform: translateY(-10px) scale(1.05);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
@@ -152,7 +151,7 @@ body {
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 20px;
+    bottom: 1vh;
     color: white;
     font-size: 2rem;
     z-index: 1000;
@@ -244,8 +243,6 @@ body {
     }
        
     .scroll-top-btn {
-        bottom: 20px;
-        right: 20px;
         width: 50px;
         height: 50px;
         font-size: 1.2rem;

@@ -201,37 +201,80 @@ class ScrollManager {
             }
         });
         
-        // Swipe для мобильных устройств
-        let touchStartY = 0;
-        let touchEndY = 0;
-        
-        this.container.addEventListener('touchstart', (e) => {
-            touchStartY = e.changedTouches[0].screenY;
-        }, { passive: true });
-        
-        this.container.addEventListener('touchend', (e) => {
-            touchEndY = e.changedTouches[0].screenY;
-            this.handleSwipe(touchStartY, touchEndY);
-        }, { passive: true });
+		// Swipe для мобильных устройств
+		let touchStartY = 0;
+		let touchEndY = 0;
+		let touchStartTime = 0;
+		let isTouchActive = false;
+
+		this.container.addEventListener('touchstart', (e) => {
+			touchStartY = e.touches[0].clientY;
+			touchStartTime = Date.now();
+			isTouchActive = true;
+			
+			// Блокируем скролл по умолчанию если включен vertical scroll
+			if (this.options.verticalScroll) {
+				e.preventDefault();
+			}
+		}, { passive: false });
+
+		this.container.addEventListener('touchmove', (e) => {
+			if (!isTouchActive) return;
+			
+			// Блокируем вертикальный скролл при горизонтальном свайпе
+			const touchY = e.touches[0].clientY;
+			const diffY = Math.abs(touchY - touchStartY);
+			
+			// Если свайп в основном вертикальный - блокируем, чтобы не было конфликта
+			if (diffY > 10 && this.options.verticalScroll) {
+				e.preventDefault();
+			}
+		}, { passive: false });
+
+		this.container.addEventListener('touchend', (e) => {
+			if (!isTouchActive) return;
+			
+			touchEndY = e.changedTouches[0].clientY;
+			const touchEndTime = Date.now();
+			
+			this.handleSwipe(touchStartY, touchEndY, touchEndTime - touchStartTime);
+			isTouchActive = false;
+		}, { passive: true });
+
+		// Также отслеживаем отмену касания
+		this.container.addEventListener('touchcancel', () => {
+			isTouchActive = false;
+		});
     }
     
-    // Обработка свайпов
-    handleSwipe(startY, endY) {
-        if (this.isScrolling) return;
-        
-        const swipeThreshold = 50; // Минимальное расстояние свайпа
-        const diff = startY - endY;
-        
-        if (Math.abs(diff) > swipeThreshold) {
-            if (diff > 0) {
-                // Свайп вверх - следующий модуль
-                this.scrollToNext();
-            } else {
-                // Свайп вниз - предыдущий модуль
-                this.scrollToPrev();
-            }
-        }
-    }
+	// Обработка свайпов
+	handleSwipe(startY, endY, duration) {
+		if (this.isScrolling || this.isAnimating) return;
+		
+		const swipeThreshold = 50; // Минимальное расстояние свайпа
+		const speedThreshold = 0.3; // Минимальная скорость свайпа (пикселей/мс)
+		const diff = startY - endY;
+		const speed = Math.abs(diff) / duration;
+		
+		// Проверяем и расстояние, и скорость свайпа
+		if (Math.abs(diff) > swipeThreshold && speed > speedThreshold) {
+			// Блокируем дополнительные свайпы на время анимации
+			this.isAnimating = true;
+			
+			if (diff > 0) {
+				// Свайп вверх - следующий модуль
+				this.scrollToNext();
+			} else {
+				// Свайп вниз - предыдущий модуль
+				this.scrollToPrev();
+			}
+			
+			// Снимаем блокировку после анимации
+			setTimeout(() => {
+				this.isAnimating = false;
+			}, this.options.animationDuration || 500);
+		}
+	}
     
     // Обновление списка модулей
     refreshModules() {
