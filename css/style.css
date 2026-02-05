@@ -3,22 +3,33 @@
     padding: 0;
     box-sizing: border-box;
 }
-
 html {
     scroll-behavior: smooth;
+	/*Отключаем класичиское передвижение по сайту*/
+	overflow: hidden;
+}
+body {
+    height: 100vh;
 }
 
+/* Скрыть скроллбар на всем сайте */
+html {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+}
+html::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
 body {
-    overflow-x: hidden;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    height: 100vh;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 /* Стили для контейнера модулей */
 .modules-container {
     height: 100vh;
-    overflow-y: scroll;
-    scroll-snap-type: y mandatory;
+    /*overflow-y: scroll;
+    scroll-snap-type: y mandatory;*/
     position: relative;
 }
 
@@ -187,7 +198,7 @@ body {
 @media (max-width: 768px) {	
 
 	.module-1 { 
-		background-color: #121617;
+		background-color: #000000;
 		background-image: url('../images/mobile/1.jpg');
 		}
 	.module-2 {

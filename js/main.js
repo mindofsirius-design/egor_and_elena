@@ -1,3 +1,5 @@
+let scrollManager;
+
 class ScrollManager {
     constructor() {
         this.container = document.getElementById('main-container');
@@ -5,10 +7,10 @@ class ScrollManager {
         this.scrollToDownBtn = document.getElementById('scrollToDown');
         this.modules = document.querySelectorAll('.module');
         this.isScrolling = false;
-        this.scrollDelay = 200; // Задержка между прокрутками в мс
+        this.scrollDelay = 500; // Задержка между прокрутками в мс
         this.lastScrollTime = 0;
         this.options = {
-			verticalScroll: false, // или значение по умолчанию
+			verticalScroll: true, // или значение по умолчанию
 			animationDuration: 500
 		};
 		this.isAnimating = false;
@@ -23,8 +25,6 @@ class ScrollManager {
         }
         
         this.setupEventListeners();
-        this.toggleScrollButtons();
-        
     }
     
     // Прокрутка к конкретному модулю
@@ -42,6 +42,8 @@ class ScrollManager {
             setTimeout(() => {
                 this.isScrolling = false;
             }, 500);
+			
+		this.toggleScrollButtons(index);
         }
     }
     
@@ -56,7 +58,7 @@ class ScrollManager {
     }
     
     // Прокрутка к предыдущему модулю
-    scrollToPrev() {
+    scrollToPrev() {	
         if (this.isScrolling) return;
         
         const currentIndex = this.getCurrentModuleIndex();
@@ -66,38 +68,47 @@ class ScrollManager {
     }
     
     // Получение индекса текущего модуля
-    getCurrentModuleIndex() {
-        if (!this.container || this.modules.length === 0) return 0;
-        
-        const containerRect = this.container.getBoundingClientRect();
-        let currentIndex = 0;
-        let closestDistance = Infinity;
-        
-        this.modules.forEach((module, index) => {
-            const moduleRect = module.getBoundingClientRect();
-            const distance = Math.abs(moduleRect.top - containerRect.top);
-            
-            if (distance < closestDistance) {
-                closestDistance = distance;
-                currentIndex = index;
-            }
-        });
-        
-        return currentIndex;
-    }
+	getCurrentModuleIndex() {
+		if (!this.container || this.modules.length === 0) return 0;
+		
+		// Для скролла на уровне window
+		const windowScroll = window.scrollY || document.documentElement.scrollTop;
+		const windowHeight = window.innerHeight;
+		const windowCenter = windowScroll + windowHeight / 2;
+		
+		let currentIndex = 0;
+		let closestDistance = Infinity;
+		
+		this.modules.forEach((module, index) => {
+			// Получаем абсолютную позицию элемента относительно документа
+			const moduleRect = module.getBoundingClientRect();
+			const absoluteModuleTop = windowScroll + moduleRect.top;
+			const moduleHeight = moduleRect.height;
+			const moduleCenter = absoluteModuleTop + moduleHeight / 2;
+			
+			const distance = Math.abs(moduleCenter - windowCenter);
+			
+			if (distance < closestDistance) {
+				closestDistance = distance;
+				currentIndex = index;
+			}
+		});
+		
+		return currentIndex;
+	}
     
     // Показ/скрытие кнопок прокрутки
-    toggleScrollButtons() {
+    toggleScrollButtons(indexModule) {
       
         // Кнопка "Вверх"
-        if (this.container.scrollTop > 300) {
+        if (indexModule > 0) {
             this.scrollToTopBtn.classList.add('show');
         } else {
             this.scrollToTopBtn.classList.remove('show');
         }
 
         // Кнопка "Вниз" - исправленная версия
-        if (this.getCurrentModuleIndex() < this.modules.length - 1) {
+        if (indexModule < this.modules.length - 1) {
             this.scrollToDownBtn.style.display = '';
         } else {
             this.scrollToDownBtn.style.display = 'none';
@@ -109,7 +120,7 @@ class ScrollManager {
 		
 		//Настройка кнопки "Вверх"
 		this.scrollToTopBtn.addEventListener('click', () => {
-			this.container.scrollTo({ top: 0, behavior: 'smooth' });
+			this.scrollToModule(0);
 		});
 		
         //Настройка кнопки "Вниз"
@@ -125,12 +136,12 @@ class ScrollManager {
         // Колесо мыши с задержкой
         this.container.addEventListener('wheel', (e) => {
             e.preventDefault();
-            
+			
             const currentTime = Date.now();
             if (currentTime - this.lastScrollTime < this.scrollDelay || this.isScrolling) {
                 return;
             }
-            
+
             this.lastScrollTime = currentTime;
             
             if (e.deltaY > 0) {
@@ -209,7 +220,7 @@ class ScrollManager {
 		this.container.addEventListener('touchstart', (e) => {
 			touchStartY = e.touches[0].clientY;
 			touchStartTime = Date.now();
-			isTouchActive = true;
+			isTouchActive = true;		
 			
 			// Блокируем скролл по умолчанию если включен vertical scroll
 			if (this.options.verticalScroll) {
@@ -218,7 +229,7 @@ class ScrollManager {
 		}, { passive: false });
 
 		this.container.addEventListener('touchmove', (e) => {
-			if (!isTouchActive) return;
+			if (!isTouchActive) return;	
 			
 			// Блокируем вертикальный скролл при горизонтальном свайпе
 			const touchY = e.touches[0].clientY;
@@ -236,7 +247,7 @@ class ScrollManager {
 			touchEndY = e.changedTouches[0].clientY;
 			const touchEndTime = Date.now();
 			
-			//this.handleSwipe(touchStartY, touchEndY, touchEndTime - touchStartTime);
+			this.handleSwipe(touchStartY, touchEndY, touchEndTime - touchStartTime);
 			isTouchActive = false;
 		}, { passive: true });
 
@@ -250,8 +261,8 @@ class ScrollManager {
 	handleSwipe(startY, endY, duration) {
 		if (this.isScrolling || this.isAnimating) return;
 		
-		const swipeThreshold = 500; // Минимальное расстояние свайпа
-		const speedThreshold = 100; // Минимальная скорость свайпа (пикселей/мс)
+		const swipeThreshold = 100; // Минимальное расстояние свайпа
+		const speedThreshold = 0.5; // Минимальная скорость свайпа (пикселей/мс)
 		const diff = startY - endY;
 		const speed = Math.abs(diff) / duration;
 		
@@ -306,20 +317,14 @@ document.addEventListener('DOMContentLoaded', () => {
 	// Резервный таймер на скрытие иникатора загрузки
 	setTimeout(hidePreloader, 5000);
 		
-    const scrollManager = new ScrollManager();
-    
-    // Добавляем поддержку обновления модулей
-    window.updateScrollManager = () => {
-        scrollManager.refreshModules();
-    };
-    
-    // Экспортируем для использования в консоли
-    window.scrollManager = scrollManager;
-    
-    console.log('ScrollManager инициализирован. Используйте scrollManager в консоли для управления.');
-    console.log('Доступные методы: scrollToNext(), scrollToPrev(), scrollToModule(index), refreshModules()');
+    scrollManager = new ScrollManager();
+	scrollManager.refreshModules();
+      
 });
 
 
-//Когда страница загрузилась вызываем hidePreloader
-window.addEventListener('load', hidePreloader);
+//Когда страница загрузилась скрываем индикатор загрузки и листаем в начало сайта
+window.addEventListener('load', () => {
+	scrollManager.scrollToModule(0);
+	hidePreloader();
+	});
