@@ -323,8 +323,29 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-//Когда страница загрузилась скрываем индикатор загрузки и листаем в начало сайта
+//Когда страница загрузилась скрываем индикатор загрузки и
+//листаем в начало сайта
 window.addEventListener('load', () => {
 	scrollManager.scrollToModule(0);
 	hidePreloader();
-	});
+	
+	if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+		// Скролл для скрытия адресной строки
+		window.scrollTo(0, 1);
+
+		// Дополнительные меры для iOS
+		if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+			document.documentElement.style.height = '100%';
+			document.body.style.height = '100%';
+			document.body.style.overflow = 'hidden';
+		}
+	}
+});
+	
+	
+// При изменении ориентации
+window.addEventListener('orientationchange', function() {
+    setTimeout(function() {
+        window.scrollTo(0, 1);
+    }, 100);
+});

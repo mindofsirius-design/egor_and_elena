@@ -204,7 +204,8 @@ body {
 	.module-2 {
 		background-color: #000000;
 		background-image: url('../images/mobile/2.jpg'); 
-		margin-top:-2px
+		margin-top: -2px;
+		margin-right: -2px;
 		}
 	.module-3 {
 		background-image: url('../images/mobile/3.jpg'); 
