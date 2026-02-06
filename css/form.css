@@ -197,7 +197,7 @@ textarea.form-control {
 }
 
 #divOpenBtn{
-	margin-top:25vh;
+	margin-top:10vh;
 }
 
 #btnSend{
@@ -208,11 +208,11 @@ textarea.form-control {
 @media (max-width: 768px) {
 	
 	#divOpenBtn{
-	margin-top:50vh;
+	margin-top:45vh;
 	width: auto;
 	}
     .confirmation-form {
-        padding: 25px;
+        padding: 10px 25px 10px 25px;
     }
     
     .form-title {
@@ -227,10 +227,7 @@ textarea.form-control {
 }
 
 @media (max-width: 480px) {
-    .confirmation-form {
-        padding: 20px;
-    }
-    
+	
     .form-title {
         font-size: 1.3rem;
     }

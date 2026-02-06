@@ -3,10 +3,10 @@
     padding: 0;
     box-sizing: border-box;
 }
-html {
-    scroll-behavior: smooth;
+html, body {
+    /*scroll-behavior: smooth;*/
 	/*Отключаем класичиское передвижение по сайту*/
-	overflow: hidden;
+	overflow: hidden !important;
 }
 body {
     height: 100vh;
@@ -27,10 +27,9 @@ body {
 
 /* Стили для контейнера модулей */
 .modules-container {
-    height: 100vh;
-    /*overflow-y: scroll;
-    scroll-snap-type: y mandatory;*/
+    height: 100%;
     position: relative;
+	scroll-behavior: smooth;
 }
 
 /* Стили для каждого модуля */
@@ -46,19 +45,13 @@ body {
     background-repeat: no-repeat;
     transition: all 0.5s ease;
 	background-color: #ffffff;
-	overflow-y: hidden; /* Блокирует вертикальную прокрутку */
-	overflow-x: hidden; /* Блокирует горизонтальную прокрутку */
+	touch-action: none !important; /* Отключает все жесты */
 }
 
 /* Содержимое модуля */
 .module-content {
     position: relative;
-    z-index: 2;
-    color: white;
     text-align: center;
-    padding: 2rem;
-    max-width: 800px;
-    animation: fadeInUp 1s ease-out;
 }
 
 
@@ -100,7 +93,6 @@ body {
     visibility: visible;
 }
 
-/* Анимации */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -171,6 +163,7 @@ body {
 		background-image: url('../images/computer/1.jpg'); 
 		}
 	.module-2 {
+		background-color: #1a1a18;
 		background-image: url('../images/computer/2.jpg');
 		}
 	.module-3 { 
@@ -183,15 +176,16 @@ body {
 		background-image: url('../images/computer/5.jpg');	
 		}
 	.module-6 { 
-		background-image: url('../images/computer/6.jpg'); 
+		background-image: url('../images/computer/6.jpg');
+		background-position: bottom;	
 		}
 }
 
-/* Немного адаптивности к компьютерной версии */
+/* Немного больше адаптивности к компьютерной версии */
 @media (min-width: 768px) and (max-width: 1100px) {
-	.module-3 { background-size: contain; background-size: 160%; }
-	.module-4 { background-size: contain; background-size: 150%; }
-	.module-5 { background-size: contain; background-size: 160%; }	
+	.module-3 { background-size: contain; background-size: 140%; }
+	.module-4 { background-size: contain; background-size: 140%; }
+	.module-5 { background-size: contain; background-size: 140%; }	
 } 
 
 /* Мобильная версия */
@@ -204,8 +198,6 @@ body {
 	.module-2 {
 		background-color: #000000;
 		background-image: url('../images/mobile/2.jpg'); 
-		margin-top: -2px;
-		margin-right: -2px;
 		}
 	.module-3 {
 		background-image: url('../images/mobile/3.jpg'); 
@@ -219,7 +211,8 @@ body {
 		background-size: contain;
 		}
 	.module-6 { 
-		background-image: url('../images/mobile/6.jpg'); 
+		background-image: url('../images/mobile/6.jpg');
+		background-position: bottom;		
 		}
 	
     .module-number {
@@ -249,17 +242,5 @@ body {
 /* Для очень маленьких экранов*/	
 @media (max-width: 480px) {
 	
-    .module-number {
-        font-size: 4.5rem;
-    }
-    
-    .module-title {
-        font-size: 1.8rem;
-    }
-    
-    .module-content {
-        padding: 1rem;
-    }
-    
 }
 
