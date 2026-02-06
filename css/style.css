@@ -4,12 +4,12 @@
     box-sizing: border-box;
 }
 html, body {
+	background-color: #000000;
     /*scroll-behavior: smooth;*/
 	/*Отключаем класичиское передвижение по сайту*/
 	overflow: hidden !important;
 }
 body {
-	background-color: #000000;
     height: 100vh;
 }
 
@@ -249,4 +249,5 @@ body {
 @media (max-width: 480px) {
 	
 }
+
 
