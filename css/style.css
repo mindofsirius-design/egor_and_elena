@@ -198,6 +198,7 @@ body {
 	.module-2 {
 		background-color: #000000;
 		background-image: url('../images/mobile/2.jpg'); 
+		margin-right: -2px;
 		}
 	.module-3 {
 		background-image: url('../images/mobile/3.jpg'); 
@@ -243,5 +244,6 @@ body {
 @media (max-width: 480px) {
 	
 }
+
 
 
