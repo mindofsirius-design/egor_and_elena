@@ -10,6 +10,7 @@ html, body {
 }
 body {
     height: 100vh;
+	background-color: #000000;
 }
 
 /* Скрыть скроллбар на всем сайте */
@@ -245,6 +246,7 @@ body {
 @media (max-width: 480px) {
 	
 }
+
 
 
 
