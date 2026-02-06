@@ -27,6 +27,7 @@ body {
 
 /* Стили для контейнера модулей */
 .modules-container {
+	background-color: #000000;
     height: 100%;
     position: relative;
 	scroll-behavior: smooth;
@@ -244,6 +245,7 @@ body {
 @media (max-width: 480px) {
 	
 }
+
 
 
 
