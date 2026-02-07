@@ -10,7 +10,7 @@ class ScrollManager {
         this.scrollDelay = 500; // Задержка между прокрутками в мс
         this.lastScrollTime = 0;
         this.options = {
-			verticalScroll: true, // или значение по умолчанию
+			verticalScroll: false, // или значение по умолчанию
 			animationDuration: 500
 		};
 		this.isAnimating = false;
