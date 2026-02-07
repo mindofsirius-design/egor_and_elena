@@ -79,7 +79,7 @@ body {
     align-items: center;
 	transition: all 0.2s ease;
 	-webkit-backdrop-filter: blur(3px); /* Для Safari */
-	backdrop-filter: blur(3px); 
+	/*backdrop-filter: blur(3px);  */
 	mix-blend-mode: difference;
 	opacity: 0;
     visibility: hidden;
@@ -239,4 +239,5 @@ body {
 @media (max-width: 480px) {
 	
 }
+
 
