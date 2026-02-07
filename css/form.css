@@ -31,12 +31,13 @@
     background-color: #ffffff;
     width: 90%;
     max-width: 500px;
+	height: 95vh; height: 95dvh;
     margin: 20px;
     border-radius: 3px;
     box-shadow: var(--shadow-hover);
     transform: translateY(-20px);
     transition: transform 0.3s ease;
-    max-height: 95%;
+    
     overflow-y: auto;
 	overflow-x: hidden; /* Блокирует горизонтальную прокрутку */
 }
@@ -66,13 +67,10 @@
 	justify-content: center;
 	transition: transform 0.3s ease-in-out;
 }
-
 .close-btn:hover {
 	opacity: 0.5;
 	transform: scale(1.1) rotate(90deg);
 }
-
-
 
 .form-title {
     color: var(--dark-gray);
@@ -197,7 +195,7 @@ textarea.form-control {
 }
 
 #divOpenBtn{
-	margin-top:10vh;
+	margin-top:10vh; margin-top:10dvh;
 }
 
 #btnSend{
@@ -208,9 +206,10 @@ textarea.form-control {
 @media (max-width: 768px) {
 	
 	#divOpenBtn{
-	margin-top:45vh;
+	margin-top:40vh; margin-top:40dvh;
 	width: auto;
 	}
+	
     .confirmation-form {
         padding: 10px 25px 10px 25px;
     }

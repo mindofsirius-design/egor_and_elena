@@ -5,12 +5,15 @@
 }
 html, body {
 	background-color: #000000;
-    /*scroll-behavior: smooth;*/
+	scroll-behavior: smooth;
 	/*Отключаем класичиское передвижение по сайту*/
-	overflow: hidden !important;
+	overscroll-behavior-y: none; /* для Safari */
+	-webkit-overflow-scrolling: touch; /* для Safari */
+	overflow: hidden !important; /* hidden clip */
 }
 body {
-    height: 100vh;
+    height: 100vh; height: 100dvh;
+	min-height: -webkit-fill-available; /* для Safari */
 }
 
 /* Скрыть скроллбар на всем сайте */
@@ -29,15 +32,16 @@ body {
 /* Стили для контейнера модулей */
 .modules-container {
 	background-color: #000000;
-    height: 100%;
-    position: relative;
-	scroll-behavior: smooth;
+	position: relative;
+    height: 100vh; height: 100dvh;
+	min-height: -webkit-fill-available; /* для Safari */  
 }
 
 /* Стили для каждого модуля */
 .module {
 	background-color: #000000;
-    height: 100%;
+    height: 100vh; height: 100dvh;
+	min-height: -webkit-fill-available; /* для Safari */  
     scroll-snap-align: start;
     position: relative;
     display: flex;
@@ -54,33 +58,34 @@ body {
 .module-content {
     position: relative;
     text-align: center;
+	overflow: clip;
 }
 
 
 /* Кнопка прокрутки вверх */
 .scroll-top-btn {
     position: fixed;
-    bottom: 5vh;
-    right: 1vw;
+	background: rgba(255, 255, 255, 0.1);
+    bottom: 5vh; bottom: 5dvh;
+	right: 1vw; right: 1dvw;
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 0px solid rgba(255, 255, 255, 0.1);
-    color: white;
+	border: 0px;
+    color: #f7f7f7; /*слегка серый*/
     cursor: pointer;
-    z-index: 1000;
-    display: flex;
+    z-index: 100;
     justify-content: center;
     align-items: center;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    opacity: 0;
+	transition: all 0.2s ease;
+	-webkit-backdrop-filter: blur(3px); /* Для Safari */
+	backdrop-filter: blur(3px); 
+	mix-blend-mode: difference;
+	opacity: 0;
     visibility: hidden;
 	
-	mix-blend-mode: difference;
-	/* Изолирует элемент от фона для правильной работы blend-mode*/
-    isolation: isolate; 
+    -webkit-tap-highlight-color: transparent; /* Для Safari */
+    touch-action: manipulation; /* Для Safari */
 }
 
 .scroll-top-btn:hover {
@@ -93,6 +98,7 @@ body {
 .scroll-top-btn.show {
     opacity: 1;
     visibility: visible;
+	pointer-events: auto; /* Для Safari */
 }
 
 @keyframes fadeInUp {
@@ -124,7 +130,7 @@ body {
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 1vh;
+    bottom: 1vh; bottom: 1dvh;
     color: white;
     font-size: 2rem;
     z-index: 1000;
@@ -165,7 +171,6 @@ body {
 		background-image: url('../images/computer/1.jpg'); 
 		}
 	.module-2 {
-		background-color: #1a1a18;
 		background-image: url('../images/computer/2.jpg');
 		}
 	.module-3 {
@@ -180,7 +185,8 @@ body {
 		background-color: #ffffff;
 		background-image: url('../images/computer/5.jpg');	
 		}
-	.module-6 { 
+	.module-6 {
+		background-color: #ffffff;
 		background-image: url('../images/computer/6.jpg');
 		background-position: bottom;	
 		}
@@ -213,41 +219,24 @@ body {
 		}
 	.module-5 {
 		background-color: #ffffff;
-		background-image: url('../images/mobile/5.jpg'); 
+		background-image: url('../images/mobile/5.jpg');
 		background-size: contain;
 		}
 	.module-6 { 
 		background-image: url('../images/mobile/6.jpg');
-		background-position: bottom;		
+		background-position: center bottom;
 		}
-	
-    .module-number {
-        font-size: 6rem;
-    }
-    
-    .module-title {
-        font-size: 2.2rem;
-    }
-    
-    .module-content .lead {
-        font-size: 1.2rem;
-    }
-       
+	       
     .scroll-top-btn {
         width: 50px;
         height: 50px;
         font-size: 1.2rem;
     }
     
-    .scroll-dot {
-        width: 12px;
-        height: 12px;
-    }
 }
 
 /* Для очень маленьких экранов*/	
 @media (max-width: 480px) {
 	
 }
-
 

@@ -88,9 +88,6 @@ document.getElementById('btnClose').addEventListener('click', function() {
   modal.classList.remove('show');
 });
 
-
-
-
 // Обработчик отправки формы
 document.getElementById('attendanceForm').addEventListener('submit', async function(e) {
     e.preventDefault();

@@ -212,57 +212,57 @@ class ScrollManager {
         });
         
 		// Swipe для мобильных устройств
-		let touchStartY = 0;
-		let touchEndY = 0;
-		let touchStartTime = 0;
-		let isTouchActive = false;
+			let touchStartY = 0;
+			let touchEndY = 0;
+			let touchStartTime = 0;
+			let isTouchActive = false;
 
-		this.container.addEventListener('touchstart', (e) => {
-			touchStartY = e.touches[0].clientY;
-			touchStartTime = Date.now();
-			isTouchActive = true;		
-			
-			// Блокируем скролл по умолчанию если включен vertical scroll
-			if (this.options.verticalScroll) {
+			this.container.addEventListener('touchstart', (e) => {
+			  touchStartY = e.touches[0].clientY;
+			  touchStartTime = Date.now();
+			  isTouchActive = true;    
+			  
+			  // Блокируем скролл по умолчанию если включен vertical scroll
+			  if (this.options.verticalScroll) {
 				e.preventDefault();
-			}
-		}, { passive: false });
+			  }
+			}, { passive: false });
 
-		this.container.addEventListener('touchmove', (e) => {
-			if (!isTouchActive) return;	
-			
-			// Блокируем вертикальный скролл при горизонтальном свайпе
-			const touchY = e.touches[0].clientY;
-			const diffY = Math.abs(touchY - touchStartY);
-			
-			// Если свайп в основном вертикальный - блокируем, чтобы не было конфликта
-			if (diffY > 10 && this.options.verticalScroll) {
+			this.container.addEventListener('touchmove', (e) => {
+			  if (!isTouchActive) return;  
+			  
+			  // Блокируем вертикальный скролл при горизонтальном свайпе
+			  const touchY = e.touches[0].clientY;
+			  const diffY = Math.abs(touchY - touchStartY);
+			  
+			  // Если свайп в основном вертикальный - блокируем, чтобы не было конфликта
+			  if (diffY > 10 && this.options.verticalScroll) {
 				e.preventDefault();
-			}
-		}, { passive: false });
+			  }
+			}, { passive: false });
 
-		this.container.addEventListener('touchend', (e) => {
-			if (!isTouchActive) return;
-			
-			touchEndY = e.changedTouches[0].clientY;
-			const touchEndTime = Date.now();
-			
-			this.handleSwipe(touchStartY, touchEndY, touchEndTime - touchStartTime);
-			isTouchActive = false;
-		}, { passive: true });
+			this.container.addEventListener('touchend', (e) => {
+			  if (!isTouchActive) return;
+			  
+			  touchEndY = e.changedTouches[0].clientY;
+			  const touchEndTime = Date.now();
+			  
+			  this.handleSwipe(touchStartY, touchEndY, touchEndTime - touchStartTime);
+			  isTouchActive = false;
+			}, { passive: true });
 
-		// Также отслеживаем отмену касания
-		this.container.addEventListener('touchcancel', () => {
-			isTouchActive = false;
-		});
-    }
-    
+			// Также отслеживаем отмену касания
+			this.container.addEventListener('touchcancel', () => {
+			  isTouchActive = false;
+			});
+	}
+			
 	// Обработка свайпов
 	handleSwipe(startY, endY, duration) {
 		if (this.isScrolling || this.isAnimating) return;
 		
-		const swipeThreshold = 100; // Минимальное расстояние свайпа
-		const speedThreshold = 0.5; // Минимальная скорость свайпа (пикселей/мс)
+		const swipeThreshold = 50; // Минимальное расстояние свайпа
+		const speedThreshold = 0.3; // Минимальная скорость свайпа (пикселей/мс)
 		const diff = startY - endY;
 		const speed = Math.abs(diff) / duration;
 		
@@ -271,18 +271,20 @@ class ScrollManager {
 			// Блокируем дополнительные свайпы на время анимации
 			this.isAnimating = true;
 			
-			if (diff > 0) {
-				// Свайп вверх - следующий модуль
-				this.scrollToNext();
-			} else {
-				// Свайп вниз - предыдущий модуль
-				this.scrollToPrev();
-			}
-			
-			// Снимаем блокировку после анимации
-			setTimeout(() => {
-				this.isAnimating = false;
-			}, this.options.animationDuration || 500);
+			requestAnimationFrame(() => {
+				if (diff > 0) {
+					// Свайп вверх - следующий модуль
+					this.scrollToNext();
+				} else {
+					// Свайп вниз - предыдущий модуль
+					this.scrollToPrev();
+				}
+				
+				// Снимаем блокировку после анимации
+				setTimeout(() => {
+					this.isAnimating = false;
+				}, Math.max(300, this.options.animationDuration || 500));
+			});
 		}
 	}
     
@@ -323,17 +325,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-//Когда страница загрузилась скрываем индикатор загрузки и
-//листаем в начало сайта
+//Когда страница загрузилась листаем в начало сайта и скрываем индикатор загрузки
 window.addEventListener('load', () => {
-	scrollManager.scrollToModule(0);
+	scrollManager.scrollToModule(5);
 	hidePreloader();
 });
 	
-	
-// При изменении ориентации
-window.addEventListener('orientationchange', function() {
-    setTimeout(function() {
-        window.scrollTo(0, 1);
-    }, 100);
-});
