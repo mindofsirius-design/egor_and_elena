@@ -10,7 +10,7 @@ class ScrollManager {
         this.scrollDelay = 500; // Задержка между прокрутками в мс
         this.lastScrollTime = 0;
         this.options = {
-			verticalScroll: false, // или значение по умолчанию
+			verticalScroll: true, // или значение по умолчанию
 			animationDuration: 500
 		};
 		this.isAnimating = false;
@@ -261,8 +261,8 @@ class ScrollManager {
 	handleSwipe(startY, endY, duration) {
 		if (this.isScrolling || this.isAnimating) return;
 		
-		const swipeThreshold = 50; // Минимальное расстояние свайпа
-		const speedThreshold = 0.3; // Минимальная скорость свайпа (пикселей/мс)
+		const swipeThreshold = 30; // Минимальное расстояние свайпа
+		const speedThreshold = 0.2; // Минимальная скорость свайпа (пикселей/мс)
 		const diff = startY - endY;
 		const speed = Math.abs(diff) / duration;
 		

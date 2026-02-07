@@ -65,7 +65,6 @@ body {
 /* Кнопка прокрутки вверх */
 .scroll-top-btn {
     position: fixed;
-	background: rgba(255, 255, 255, 0.1);
     bottom: 5vh; bottom: 5dvh;
 	right: 1vw; right: 1dvw;
     width: 50px;
@@ -79,20 +78,31 @@ body {
     align-items: center;
 	transition: all 0.2s ease;
 	-webkit-backdrop-filter: blur(3px); /* Для Safari */
-	backdrop-filter: blur(3px);  
-	/*mix-blend-mode: difference;*/
+	backdrop-filter: blur(3px); 
 	opacity: 0;
     visibility: hidden;
-	
     -webkit-tap-highlight-color: transparent; /* Для Safari */
     touch-action: manipulation; /* Для Safari */
+	
+	/* Для всех браузеров */
+    background: rgba(0, 0, 0, 0.4);
+
 }
 
-.scroll-top-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-10px) scale(1.05);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+/* Стили для не-iOS браузеров */
+@supports not (-webkit-touch-callout: none) {
+    .scroll-top-btn {
+        mix-blend-mode: difference;
+		isolation: isolate; /* Изолирует элемент от фона */
+        background: rgba(255, 255, 255, 0.1);
+    }
+	
+	.scroll-top-btn:hover {
+		background: rgba(255, 255, 255, 0.2);
+		border-color: rgba(255, 255, 255, 0.2);
+		transform: translateY(-10px) scale(1.05);
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+	}
 }
 
 .scroll-top-btn.show {
@@ -239,6 +249,4 @@ body {
 @media (max-width: 480px) {
 	
 }
-
-
 
