@@ -311,7 +311,12 @@ function hidePreloader() {
 	}, 1500);
 }
     
-
+function isiPhone() {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    
+    // Проверка для iPhone
+    return /iPhone|iPod/.test(userAgent) && !window.MSStream;
+}
 
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
@@ -321,6 +326,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		
     scrollManager = new ScrollManager();
 	scrollManager.refreshModules();
+	
+	if (isiPhone()) {
+		console.log("Устройство: iPhone");
+		scrollManager.options.verticalScroll = true;
+	} 
       
 });
 
