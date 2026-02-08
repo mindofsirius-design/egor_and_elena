@@ -275,11 +275,9 @@ class ScrollManager {
 			requestAnimationFrame(() => {
 				if (diff > 0) {
 					// Свайп вверх - следующий модуль
-					showNotification("Свайп вверх");
 					this.scrollToNext();
 				} else {
 					// Свайп вниз - предыдущий модуль
-					showNotification("Свайп вниз");
 					this.scrollToPrev();
 				}
 				
