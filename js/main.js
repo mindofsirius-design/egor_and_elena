@@ -10,7 +10,7 @@ class ScrollManager {
         this.scrollDelay = 500; // Задержка между прокрутками в мс
         this.lastScrollTime = 0;
         this.options = {
-			verticalScroll: false, // или значение по умолчанию
+			verticalScroll: true, // или значение по умолчанию
 			animationDuration: 500
 		};
 		this.isAnimating = false;
@@ -274,9 +274,11 @@ class ScrollManager {
 			requestAnimationFrame(() => {
 				if (diff > 0) {
 					// Свайп вверх - следующий модуль
+					showNotification("Свайп вверх");
 					this.scrollToNext();
 				} else {
 					// Свайп вниз - предыдущий модуль
+					showNotification("Свайп вниз");
 					this.scrollToPrev();
 				}
 				
@@ -327,6 +329,10 @@ document.addEventListener('DOMContentLoaded', () => {
     scrollManager = new ScrollManager();
 	scrollManager.refreshModules();
 	
+	if (isiPhone()) {
+		console.log("Устройство: iPhone");
+		scrollManager.options.verticalScroll = true;
+	} 
       
 });
 
@@ -336,6 +342,4 @@ window.addEventListener('load', () => {
 	scrollManager.scrollToModule(5);
 	hidePreloader();
 });
-
 	
-
