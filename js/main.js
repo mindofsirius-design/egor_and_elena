@@ -10,7 +10,7 @@ class ScrollManager {
         this.scrollDelay = 500; // Задержка между прокрутками в мс
         this.lastScrollTime = 0;
         this.options = {
-			verticalScroll: true, // или значение по умолчанию
+			verticalScroll: false, // или значение по умолчанию
 			animationDuration: 500
 		};
 		this.isAnimating = false;
@@ -211,50 +211,51 @@ class ScrollManager {
             }
         });
         
+
 		// Swipe для мобильных устройств
-			let touchStartY = 0;
-			let touchEndY = 0;
-			let touchStartTime = 0;
-			let isTouchActive = false;
+		let touchStartY = 0;
+		let touchEndY = 0;
+		let touchStartTime = 0;
+		let isTouchActive = false;
 
-			this.container.addEventListener('touchstart', (e) => {
-			  touchStartY = e.touches[0].clientY;
-			  touchStartTime = Date.now();
-			  isTouchActive = true;    
-			  
-			  // Блокируем скролл по умолчанию если включен vertical scroll
-			  if (this.options.verticalScroll) {
-				e.preventDefault();
-			  }
-			}, { passive: false });
+		this.container.addEventListener('touchstart', (e) => {
+		  touchStartY = e.touches[0].clientY;
+		  touchStartTime = Date.now();
+		  isTouchActive = true;    
+		  
+		  // Блокируем скролл по умолчанию если включен vertical scroll
+		  if (this.options.verticalScroll) {
+			e.preventDefault();
+		  }
+		}, { passive: false });
 
-			this.container.addEventListener('touchmove', (e) => {
-			  if (!isTouchActive) return;  
-			  
-			  // Блокируем вертикальный скролл при горизонтальном свайпе
-			  const touchY = e.touches[0].clientY;
-			  const diffY = Math.abs(touchY - touchStartY);
-			  
-			  // Если свайп в основном вертикальный - блокируем, чтобы не было конфликта
-			  if (diffY > 10 && this.options.verticalScroll) {
-				e.preventDefault();
-			  }
-			}, { passive: false });
+		this.container.addEventListener('touchmove', (e) => {
+		  if (!isTouchActive) return;  
+		  
+		  // Блокируем вертикальный скролл при горизонтальном свайпе
+		  const touchY = e.touches[0].clientY;
+		  const diffY = Math.abs(touchY - touchStartY);
+		  
+		  // Если свайп в основном вертикальный - блокируем, чтобы не было конфликта
+		  if (diffY > 10 && this.options.verticalScroll) {
+			e.preventDefault();
+		  }
+		}, { passive: false });
 
-			this.container.addEventListener('touchend', (e) => {
-			  if (!isTouchActive) return;
-			  
-			  touchEndY = e.changedTouches[0].clientY;
-			  const touchEndTime = Date.now();
-			  
-			  this.handleSwipe(touchStartY, touchEndY, touchEndTime - touchStartTime);
-			  isTouchActive = false;
-			}, { passive: true });
+		this.container.addEventListener('touchend', (e) => {
+		  if (!isTouchActive) return;
+		  
+		  touchEndY = e.changedTouches[0].clientY;
+		  const touchEndTime = Date.now();
+		  
+		  this.handleSwipe(touchStartY, touchEndY, touchEndTime - touchStartTime);
+		  isTouchActive = false;
+		}, { passive: true });
 
-			// Также отслеживаем отмену касания
-			this.container.addEventListener('touchcancel', () => {
-			  isTouchActive = false;
-			});
+		// Также отслеживаем отмену касания
+		this.container.addEventListener('touchcancel', () => {
+		  isTouchActive = false;
+		});
 	}
 			
 	// Обработка свайпов
@@ -320,6 +321,25 @@ function isiPhone() {
     return /iPhone|iPod/.test(userAgent) && !window.MSStream;
 }
 
+function isDesktop() {
+    // Список типичных мобильных и планшетных устройств
+    const mobileUserAgents = [
+        /Android/i,
+        /webOS/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /BlackBerry/i,
+        /Windows Phone/i,
+        /Mobile/i
+    ];
+    
+    const userAgent = navigator.userAgent;
+    
+    // Если находим мобильный user-agent, значит это не ПК
+    return !mobileUserAgents.some(agent => agent.test(userAgent));
+}
+
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
 	
@@ -328,18 +348,13 @@ document.addEventListener('DOMContentLoaded', () => {
 		
     scrollManager = new ScrollManager();
 	scrollManager.refreshModules();
-	
-	if (isiPhone()) {
-		console.log("Устройство: iPhone");
-		scrollManager.options.verticalScroll = true;
-	} 
-      
+	     
 });
 
 
 //Когда страница загрузилась листаем в начало сайта и скрываем индикатор загрузки
 window.addEventListener('load', () => {
-	scrollManager.scrollToModule(5);
+	scrollManager.scrollToModule(0);
 	hidePreloader();
 });
 	
