@@ -235,15 +235,15 @@ class ScrollManager {
 				touchStartY = e.touches[0].clientY;
 			}, { passive: true });
 
-			this.container.addEventListener('touchmove', (e) => {
-				const touchY = e.touches[0].clientY;
-				const diffY = Math.abs(touchY - touchStartY);
-				
-				// Если это свайп
-				if (diffY > 10) {
-					e.preventDefault();
-				}
-			}, { passive: false });
+			//this.container.addEventListener('touchmove', (e) => {
+			//	const touchY = e.touches[0].clientY;
+			//	const diffY = Math.abs(touchY - touchStartY);
+			//	
+			//	// Если это свайп
+			//	if (diffY > 10) {
+			//		//e.preventDefault();
+			//	}
+			//}, { passive: false });
 
 			this.container.addEventListener('touchend', (e) => {
 				
