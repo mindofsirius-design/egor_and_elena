@@ -183,6 +183,7 @@ textarea.form-control {
     /* Убираем фиксированную высоту */
     min-height: unset;
     height: auto;
+	touch-action: manipulation;
 }
 
 .btn-form:hover {
