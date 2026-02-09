@@ -2,6 +2,7 @@ let scrollManager;
 
 class ScrollManager {
     constructor() {
+		this.supportsSmooth = 'scrollBehavior' in document.documentElement.style;
         this.container = document.getElementById('main-container');
         this.scrollToTopBtn = document.getElementById('scrollToTop');
         this.scrollToDownBtn = document.getElementById('scrollToDown');
@@ -9,11 +10,6 @@ class ScrollManager {
         this.isScrolling = false;
         this.scrollDelay = 500; // Задержка между прокрутками в мс
         this.lastScrollTime = 0;
-        this.options = {
-			verticalScroll: false, // или значение по умолчанию
-			animationDuration: 500
-		};
-		this.isAnimating = false;
         this.init();
     }
     
@@ -30,14 +26,25 @@ class ScrollManager {
     // Прокрутка к конкретному модулю
     scrollToModule(index) {
         if (this.isScrolling) return;
-        
+		
         if (index >= 0 && index < this.modules.length) {
             this.isScrolling = true;
-            this.modules[index].scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-            
+			console.log(".листаем к модулю " + index);
+			
+			if (this.supportsSmooth) {
+				this.modules[index].scrollIntoView({
+					behavior: 'smooth',
+					block: 'start'
+				});
+            } 
+			else {
+				// Fallback для старых браузеров
+				this.modules[index].scrollIntoView(true);
+			}
+			
+			// Для мобильных: фокус на элементе может помочь
+			this.modules[index].focus({ preventScroll: true });
+			
             // Сброс флага прокрутки через время
             setTimeout(() => {
                 this.isScrolling = false;
@@ -212,90 +219,47 @@ class ScrollManager {
         });
         
 		if (isiPhone()){
-			const container = document.querySelector('.modules-container');
-			const module = document.querySelector('.module');
-			showNotification("обнаружен айфон")
-			container.classList.add('modules-container.iphone');
-			module.classList.add('module.iphone');
+			console.log("Обнаружен айфон!");
+			//this.container.classList.add('modules-container-iphone');
+			//this.modules.forEach(module => {
+			//	module.classList.add('module-iphone');
+			//	});
 		}
-		else {
+		else {}
+			
+			
 			// Swipe для мобильных устройств
 			let touchStartY = 0;
-			let touchEndY = 0;
-			let touchStartTime = 0;
-			let isTouchActive = false;
-			// Обработка касаний
+
 			this.container.addEventListener('touchstart', (e) => {
-			  touchStartY = e.touches[0].clientY;
-			  touchStartTime = Date.now();
-			  isTouchActive = true;    
-			  
-			  // Блокируем скролл по умолчанию если включен vertical scroll
-			  if (this.options.verticalScroll) {
-				e.preventDefault();
-			  }
-			}, { passive: false });
-			// Движение
-			this.container.addEventListener('touchmove', (e) => {
-			  if (!isTouchActive) return;  
-			  
-			  // Блокируем вертикальный скролл при горизонтальном свайпе
-			  const touchY = e.touches[0].clientY;
-			  const diffY = Math.abs(touchY - touchStartY);
-			  
-			  // Если свайп в основном вертикальный - блокируем, чтобы не было конфликта
-			  if (diffY > 10 && this.options.verticalScroll) {
-				e.preventDefault();
-			  }
-			}, { passive: false });
-			// Окончание
-			this.container.addEventListener('touchend', (e) => {
-			  if (!isTouchActive) return;
-			  
-			  touchEndY = e.changedTouches[0].clientY;
-			  const touchEndTime = Date.now();
-			  
-			  this.handleSwipe(touchStartY, touchEndY, touchEndTime - touchStartTime);
-			  isTouchActive = false;
+				touchStartY = e.touches[0].clientY;
 			}, { passive: true });
-			// Отмена касания
-			this.container.addEventListener('touchcancel', () => {
-		  isTouchActive = false;
-		});
-		}
-	}
-			
-	// Обработка свайпов
-	handleSwipe(startY, endY, duration) {
-		if (this.isScrolling || this.isAnimating) return;
-		
-		const swipeThreshold = 30; // Минимальное расстояние свайпа
-		const speedThreshold = 0.2; // Минимальная скорость свайпа (пикселей/мс)
-		const diff = startY - endY;
-		const speed = Math.abs(diff) / duration;
-		
-		// Проверяем и расстояние, и скорость свайпа
-		if (Math.abs(diff) > swipeThreshold && speed > speedThreshold) {
-			// Блокируем дополнительные свайпы на время анимации
-			this.isAnimating = true;
-			
-			requestAnimationFrame(() => {
-				if (diff > 0) {
-					// Свайп вверх - следующий модуль
-					this.scrollToNext();
-				} else {
-					// Свайп вниз - предыдущий модуль
-					this.scrollToPrev();
-				}
+
+			this.container.addEventListener('touchmove', (e) => {
+				const touchY = e.touches[0].clientY;
+				const diffY = Math.abs(touchY - touchStartY);
 				
-				// Снимаем блокировку после анимации
-				setTimeout(() => {
-					this.isAnimating = false;
-				}, Math.max(300, this.options.animationDuration || 500));
-			});
-		}
+				// Если это свайп
+				if (diffY > 10) {
+					e.preventDefault();
+				}
+			}, { passive: false });
+
+			this.container.addEventListener('touchend', (e) => {
+				
+				const touchEndY = e.changedTouches[0].clientY;
+				const diffY = touchEndY - touchStartY;
+				
+				if (Math.abs(diffY) > 50) {					
+					if (diffY < 0) { this.scrollToNext(); } 
+					else if (diffY > 0) { this.scrollToPrev(); }
+				}
+			}, { passive: true });
+
+			
 	}
-    
+			
+   
     // Обновление списка модулей
     refreshModules() {
         this.modules = document.querySelectorAll('.module');
@@ -353,14 +317,13 @@ document.addEventListener('DOMContentLoaded', () => {
 		
     scrollManager = new ScrollManager();
 	scrollManager.refreshModules();
+	scrollManager.scrollToModule(0); //листаем в начало сайта
 	     
 });
 
 
-//Когда страница загрузилась листаем в начало сайта и скрываем индикатор загрузки
+//Когда страница загрузилась скрываем индикатор загрузки
 window.addEventListener('load', () => {
-	scrollManager.scrollToModule(0);
 	hidePreloader();
 });
-
 	
