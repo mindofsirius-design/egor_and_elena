@@ -211,51 +211,58 @@ class ScrollManager {
             }
         });
         
-
-		// Swipe для мобильных устройств
-		let touchStartY = 0;
-		let touchEndY = 0;
-		let touchStartTime = 0;
-		let isTouchActive = false;
-
-		this.container.addEventListener('touchstart', (e) => {
-		  touchStartY = e.touches[0].clientY;
-		  touchStartTime = Date.now();
-		  isTouchActive = true;    
-		  
-		  // Блокируем скролл по умолчанию если включен vertical scroll
-		  if (this.options.verticalScroll) {
-			e.preventDefault();
-		  }
-		}, { passive: false });
-
-		this.container.addEventListener('touchmove', (e) => {
-		  if (!isTouchActive) return;  
-		  
-		  // Блокируем вертикальный скролл при горизонтальном свайпе
-		  const touchY = e.touches[0].clientY;
-		  const diffY = Math.abs(touchY - touchStartY);
-		  
-		  // Если свайп в основном вертикальный - блокируем, чтобы не было конфликта
-		  if (diffY > 10 && this.options.verticalScroll) {
-			e.preventDefault();
-		  }
-		}, { passive: false });
-
-		this.container.addEventListener('touchend', (e) => {
-		  if (!isTouchActive) return;
-		  
-		  touchEndY = e.changedTouches[0].clientY;
-		  const touchEndTime = Date.now();
-		  
-		  this.handleSwipe(touchStartY, touchEndY, touchEndTime - touchStartTime);
-		  isTouchActive = false;
-		}, { passive: true });
-
-		// Также отслеживаем отмену касания
-		this.container.addEventListener('touchcancel', () => {
+		if (isiPhone()){
+			const container = document.querySelector('.modules-container');
+			const module = document.querySelector('.module');
+			
+			container.classList.add('modules-container.iphone');
+			module.classList.add('module.iphone');
+		}
+		else {
+			// Swipe для мобильных устройств
+			let touchStartY = 0;
+			let touchEndY = 0;
+			let touchStartTime = 0;
+			let isTouchActive = false;
+			// Обработка касаний
+			this.container.addEventListener('touchstart', (e) => {
+			  touchStartY = e.touches[0].clientY;
+			  touchStartTime = Date.now();
+			  isTouchActive = true;    
+			  
+			  // Блокируем скролл по умолчанию если включен vertical scroll
+			  if (this.options.verticalScroll) {
+				e.preventDefault();
+			  }
+			}, { passive: false });
+			// Движение
+			this.container.addEventListener('touchmove', (e) => {
+			  if (!isTouchActive) return;  
+			  
+			  // Блокируем вертикальный скролл при горизонтальном свайпе
+			  const touchY = e.touches[0].clientY;
+			  const diffY = Math.abs(touchY - touchStartY);
+			  
+			  // Если свайп в основном вертикальный - блокируем, чтобы не было конфликта
+			  if (diffY > 10 && this.options.verticalScroll) {
+				e.preventDefault();
+			  }
+			}, { passive: false });
+			// Окончание
+			this.container.addEventListener('touchend', (e) => {
+			  if (!isTouchActive) return;
+			  
+			  touchEndY = e.changedTouches[0].clientY;
+			  const touchEndTime = Date.now();
+			  
+			  this.handleSwipe(touchStartY, touchEndY, touchEndTime - touchStartTime);
+			  isTouchActive = false;
+			}, { passive: true });
+			// Отмена касания
+			this.container.addEventListener('touchcancel', () => {
 		  isTouchActive = false;
 		});
+		}
 	}
 			
 	// Обработка свайпов
