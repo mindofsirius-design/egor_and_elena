@@ -214,7 +214,7 @@ class ScrollManager {
 		if (isiPhone()){
 			const container = document.querySelector('.modules-container');
 			const module = document.querySelector('.module');
-			
+			showNotification("обнаружен айфон")
 			container.classList.add('modules-container.iphone');
 			module.classList.add('module.iphone');
 		}
@@ -362,4 +362,5 @@ window.addEventListener('load', () => {
 	scrollManager.scrollToModule(0);
 	hidePreloader();
 });
+
 	
