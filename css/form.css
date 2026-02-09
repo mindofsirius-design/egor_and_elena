@@ -52,6 +52,7 @@
     padding: 40px;
 }
 
+
 /* Кнопка закрыть */
 .close-btn {
 	overflow: hidden;
@@ -67,10 +68,12 @@
 	justify-content: center;
 	transition: transform 0.3s ease-in-out;
 }
+
 .close-btn:hover {
 	opacity: 0.5;
 	transform: scale(1.1) rotate(90deg);
 }
+
 
 .form-title {
     color: var(--dark-gray);
@@ -194,8 +197,9 @@ textarea.form-control {
 	color: black;
 }
 
-#divOpenBtn{
+#openBtn{
 	margin-top:10vh; margin-top:10dvh;
+	width: 40%;
 }
 
 #btnSend{
@@ -205,7 +209,7 @@ textarea.form-control {
 /* Адаптивность */
 @media (max-width: 768px) {
 	
-	#divOpenBtn{
+	#openBtn{
 	margin-top:40vh; margin-top:40dvh;
 	width: auto;
 	}
