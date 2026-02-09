@@ -220,14 +220,12 @@ class ScrollManager {
         
 		if (isiPhone()){
 			console.log("Обнаружен айфон!");
-			//this.container.classList.add('modules-container-iphone');
-			//this.modules.forEach(module => {
-			//	module.classList.add('module-iphone');
-			//	});
+			this.container.classList.add('modules-container-iphone');
+			this.modules.forEach(module => {
+				module.classList.add('module-iphone');
+				});
 		}
-		else {}
-			
-			
+		else {
 			// Swipe для мобильных устройств
 			let touchStartY = 0;
 
@@ -255,8 +253,8 @@ class ScrollManager {
 					else if (diffY > 0) { this.scrollToPrev(); }
 				}
 			}, { passive: true });
-
 			
+		}		
 	}
 			
    
