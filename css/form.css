@@ -159,7 +159,7 @@ textarea.form-control {
 /* Кнопка отправки */
 .btn-form {
 	/* Адаптивный padding */
-	padding: clamp(12px, 1.5vh, 20px) clamp(24px, 4vw, 48px);
+	padding: 10px 40px;
 	/* Адаптивная ширина - на мобильных занимает всю ширину, на десктопе - по содержимому */
     width: 100%;
     
@@ -169,7 +169,7 @@ textarea.form-control {
     border-radius: 3px;
     
     /* Адаптивный размер текста */
-    font-size: clamp(0.875rem, 5vw, 1.125rem);
+    font-size: 2rem;
     font-weight: 500;
     
     cursor: pointer;
@@ -201,18 +201,21 @@ textarea.form-control {
 }
 
 #openBtn{
-	max-width: 300px;
 	margin-top:10vh; margin-top:10dvh;
-	width: 40%;
+	width: auto;
 }
 
 #btnSend{
+	font-size: 1rem;
 	display: block;
 }
 
 /* Адаптивность */
 @media (max-width: 768px) {
-	
+	.btn-form {
+		padding: 1.5dvh 30px;
+		font-size: 0.9rem;		
+	}
 	#openBtn{
 	margin-top:40vh; margin-top:40dvh;
 	width: auto;

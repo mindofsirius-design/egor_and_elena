@@ -289,10 +289,6 @@ html::-webkit-scrollbar {
 }
 
 /* Для очень маленьких экранов*/	
-@media (max-width: 480px) {
-	.module-3 {
-		background-size: contain;
-		background-position: center bottom;		
-	}
+@media (max-height: 500px) {
 }
 

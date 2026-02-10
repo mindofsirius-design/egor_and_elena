@@ -316,7 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		
     scrollManager = new ScrollManager();
 	scrollManager.refreshModules();
-	scrollManager.scrollToModule(0); //листаем в начало сайта
+	scrollManager.scrollToModule(5); //листаем в начало сайта
 	     
 });
 
