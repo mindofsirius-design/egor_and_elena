@@ -31,7 +31,7 @@
     background-color: #ffffff;
     width: 90%;
     max-width: 500px;
-	height: 95vh; height: 95dvh;
+	max-height:95dvh;
     margin: 20px;
     border-radius: 3px;
     box-shadow: var(--shadow-hover);
@@ -183,6 +183,8 @@ textarea.form-control {
     /* Убираем фиксированную высоту */
     min-height: unset;
     height: auto;
+	z-index: 100;
+	user-select: none;
 	touch-action: manipulation;
 }
 
@@ -199,6 +201,7 @@ textarea.form-control {
 }
 
 #openBtn{
+	max-width: 300px;
 	margin-top:10vh; margin-top:10dvh;
 	width: 40%;
 }

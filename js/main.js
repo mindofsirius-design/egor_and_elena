@@ -137,7 +137,10 @@ class ScrollManager {
         
         // Прокрутка контейнера
         this.container.addEventListener('scroll', () => {
-            this.toggleScrollButtons();
+			clearTimeout(this.scrollTimeout);
+			this.scrollTimeout = setTimeout(() => {
+				this.toggleScrollButtons(this.getCurrentModuleIndex());
+			}, 100);
         });
         
         // Колесо мыши с задержкой
@@ -275,8 +278,6 @@ function hidePreloader() {
 		
 		setTimeout(() => {
 			loader.style.display = 'none';
-			//loader.parentNode.removeChild(loader);
-			//loader.remove();
 		}, 800);
 	}, 1500);
 }
