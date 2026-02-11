@@ -10,6 +10,7 @@ class ScrollManager {
         this.isScrolling = false;
         this.scrollDelay = 500; // Задержка между прокрутками в мс
         this.lastScrollTime = 0;
+		this.currentIndex = 0;
         this.init();
     }
     
@@ -21,6 +22,7 @@ class ScrollManager {
         }
         
         this.setupEventListeners();
+		this.setupIntersectionObserver();
     }
     
     // Прокрутка к конкретному модулю
@@ -42,8 +44,6 @@ class ScrollManager {
 				this.modules[index].scrollIntoView(true);
 			}
 			
-			// Для мобильных: фокус на элементе может помочь
-			this.modules[index].focus({ preventScroll: true });
 			
             // Сброс флага прокрутки через время
             setTimeout(() => {
@@ -58,9 +58,8 @@ class ScrollManager {
     scrollToNext() {
         if (this.isScrolling) return;
         
-        const currentIndex = this.getCurrentModuleIndex();
-        if (currentIndex < this.modules.length - 1) {
-            this.scrollToModule(currentIndex + 1);
+        if (this.currentIndex < this.modules.length - 1) {
+            this.scrollToModule(this.currentIndex + 1);
         }
     }
     
@@ -68,42 +67,33 @@ class ScrollManager {
     scrollToPrev() {	
         if (this.isScrolling) return;
         
-        const currentIndex = this.getCurrentModuleIndex();
-        if (currentIndex > 0) {
-            this.scrollToModule(currentIndex - 1);
+        if (this.currentIndex > 0) {
+            this.scrollToModule(this.currentIndex - 1);
         }
     }
     
-    // Получение индекса текущего модуля
-	getCurrentModuleIndex() {
-		if (!this.container || this.modules.length === 0) return 0;
+	// Cледит за видимостью элементов и сообщает когда элемент пересекает указанный порог видимости
+	setupIntersectionObserver() {
+		const options = {
+			root: null, // viewport
+			threshold: 0.5 // элемент считается видимым, когда виден на 50%
+		};
 		
-		// Для скролла на уровне window
-		const windowScroll = window.scrollY || document.documentElement.scrollTop;
-		const windowHeight = window.innerHeight;
-		const windowCenter = windowScroll + windowHeight / 2;
+		this.observer = new IntersectionObserver((entries) => {
+			entries.forEach(entry => {
+				if (entry.isIntersecting) {
+					const index = Array.from(this.modules).indexOf(entry.target);
+					if (index !== -1) {
+						this.currentIndex = index;
+						this.toggleScrollButtons(index);
+					}
+				}
+			});
+		}, options);
 		
-		let currentIndex = 0;
-		let closestDistance = Infinity;
-		
-		this.modules.forEach((module, index) => {
-			// Получаем абсолютную позицию элемента относительно документа
-			const moduleRect = module.getBoundingClientRect();
-			const absoluteModuleTop = windowScroll + moduleRect.top;
-			const moduleHeight = moduleRect.height;
-			const moduleCenter = absoluteModuleTop + moduleHeight / 2;
-			
-			const distance = Math.abs(moduleCenter - windowCenter);
-			
-			if (distance < closestDistance) {
-				closestDistance = distance;
-				currentIndex = index;
-			}
-		});
-		
-		return currentIndex;
+		this.modules.forEach(module => this.observer.observe(module));
 	}
-    
+	 
     // Показ/скрытие кнопок прокрутки
     toggleScrollButtons(indexModule) {
       
@@ -139,7 +129,7 @@ class ScrollManager {
         this.container.addEventListener('scroll', () => {
 			clearTimeout(this.scrollTimeout);
 			this.scrollTimeout = setTimeout(() => {
-				this.toggleScrollButtons(this.getCurrentModuleIndex());
+				this.toggleScrollButtons(this.currentIndex);
 			}, 100);
         });
         
@@ -272,12 +262,15 @@ class ScrollManager {
 function hidePreloader() {
 	const loader = document.getElementById('neo-loader');
 	
+	if (!loader) { return; }
+	
 	setTimeout(() => {
 		loader.style.opacity = '0';
 		loader.style.transform = 'scale(1.2)';
 		
 		setTimeout(() => {
 			loader.style.display = 'none';
+			loader.remove();
 		}, 800);
 	}, 1500);
 }
@@ -316,7 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		
     scrollManager = new ScrollManager();
 	scrollManager.refreshModules();
-	scrollManager.scrollToModule(5); //листаем в начало сайта
+	scrollManager.scrollToModule(0); //листаем в начало сайта
 	     
 });
 

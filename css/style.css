@@ -269,11 +269,11 @@ html::-webkit-scrollbar {
 		background-position: center bottom;
 	}
 	.module-6-2 { 
-		background-image: url('../images/mobile/6_2.svg');
-		background-size: 120% 100%;
+		background-image: url('../images/mobile/6_2.png');
+		background-position: center bottom;
 	}	
 	.module-6-3 { 
-		background-image: url('../images/mobile/6_3.svg');
+		background-image: url('../images/mobile/6_3.png');
 		background-position: center bottom;
 	}
 	       
