@@ -156,22 +156,16 @@ textarea.form-control {
     font-style: italic;
 }
 
-/* Кнопка отправки */
+/* Кнопки */
 .btn-form {
-	/* Адаптивный padding */
 	padding: 10px 40px;
-	/* Адаптивная ширина - на мобильных занимает всю ширину, на десктопе - по содержимому */
     width: 100%;
-    
     background: black;
     color: white;
     border: none;
     border-radius: 3px;
-    
-    /* Адаптивный размер текста */
     font-size: 2rem;
     font-weight: 500;
-    
     cursor: pointer;
     transition: var(--transition);
     
@@ -201,7 +195,7 @@ textarea.form-control {
 }
 
 #openBtn{
-	margin-top:10vh; margin-top:10dvh;
+	position: absolute;
 	width: auto;
 }
 
@@ -214,11 +208,11 @@ textarea.form-control {
 @media (max-width: 768px) {
 	.btn-form {
 		padding: 1.5dvh 30px;
-		font-size: 0.9rem;		
+		font-size: 1.1rem;		
 	}
 	#openBtn{
-	margin-top:40vh; margin-top:40dvh;
-	width: auto;
+		bottom: 23dvh;
+		width: auto;
 	}
 	
     .confirmation-form {
