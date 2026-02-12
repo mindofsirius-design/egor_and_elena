@@ -51,6 +51,7 @@ class ScrollManager {
             }, 500);
 			
 		this.toggleScrollButtons(index);
+		this.modules[index].focus({ preventScroll: true });
         }
     }
     

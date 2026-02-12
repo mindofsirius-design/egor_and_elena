@@ -61,7 +61,7 @@ picture{
     background-repeat: no-repeat;
     transition: all 0.5s ease;
 	touch-action: none;
-
+	outline: none;
 }
 
 .module-iphone{
