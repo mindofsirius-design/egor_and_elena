@@ -197,6 +197,7 @@ textarea.form-control {
 #openBtn{
 	position: absolute;
 	width: auto;
+	bottom: 40%;
 }
 
 #btnSend{
@@ -211,7 +212,7 @@ textarea.form-control {
 		font-size: 1.1rem;		
 	}
 	#openBtn{
-		bottom: 25%;
+		bottom: 20%;
 		width: auto;
 	}
 	

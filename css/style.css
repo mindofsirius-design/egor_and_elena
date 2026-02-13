@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+	user-select: none;
 }
 html{
 	-webkit-tap-highlight-color: transparent;	/* Убираем выделение */
@@ -39,17 +40,15 @@ picture{
 /* Стили для контейнера модулей */
 .modules-container {
 	position: relative;
-	width: 100%;
     height: 100vh; height: 100dvh;
 }
-
 .modules-container-iphone {
 	overflow-y: auto;
 	overflow-x: hidden;
 	scroll-snap-type: y mandatory; /* Привязка к точкам */
 }
 
-/* Стили для каждого модуля */
+/* Общий стиль для модулей */
 .module {
 	width: 100%;
 	height: 100%;
@@ -64,7 +63,6 @@ picture{
 	touch-action: none;
 	outline: none;
 }
-
 .module-iphone{
 	touch-action: auto;
 	scroll-snap-align: start; /* Выравнивание при скролле */
@@ -84,39 +82,29 @@ picture{
     background-repeat: no-repeat;
     background-size: contain;
 	animation: bounce 2s infinite;
-	opacity: 0.6;
+	
+}
+.scroll-down-btn:hover{
+	animation: none;
 }
 
 /* Стрелка вверх */
 .scroll-top-btn {
     position: fixed;
-    right: 2%;
+    right: 3%;
     bottom: 6%;
     z-index: 100;
     cursor: pointer;
     transition: all 0.3s ease;
 	transform: scaleY(-1);
+	opacity: 0.6;
 	mix-blend-mode: difference;
-    isolation: isolate; 
+    isolation: isolate;
 }
-
-/* Стили для не-iOS браузеров 
-@supports not (-webkit-touch-callout: none) {
-    .scroll-top-btn {
-        mix-blend-mode: difference;
-		isolation: isolate; /* Изолирует элемент от фона */
-    }
-	
-	/*.scroll-top-btn:hover {
-		transform: translateY(-10px) scale(1.05);
-		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+@media (min-width: 768px) {
+	.scroll-down-btn:hover {
+		opacity: 1;
 	}
-}*/
-
-.scroll-top-btn.show {
-    opacity: 1;
-    visibility: visible;
-	pointer-events: auto; /* Для Safari */
 }
 
 /* Стрелка вниз */
@@ -128,16 +116,15 @@ picture{
     z-index: 100;
     cursor: pointer;
     transition: all 0.3s ease;
-	
+	opacity: 0.6;
 	mix-blend-mode: difference;
-	/* Изолирует элемент от фона для правильной работы blend-mode*/
     isolation: isolate; 
-	
 }
-
-.scroll-down-btn:hover {
-    opacity: 1;
-    transform: translateX(-50%) scale(1.2);
+@media (min-width: 768px) {
+	.scroll-down-btn:hover {
+		opacity: 1;
+		transform: scale(1.2) translateX(-50%);
+	}
 }
 
 @keyframes bounce {
@@ -153,11 +140,11 @@ picture{
 }
 
 
-
 /* Адаптивность */
 
 /* Компьютерная версия */
 @media (min-width: 768px) {
+	.mobile-image { display: none; }
 	.module-1 {
 		background-color: #1a1a18;
 		background-image: url('../images/computer/1.jpg'); 
@@ -197,6 +184,12 @@ picture{
 		object-fit: contain; 
 	}
 	
+	.arrow{
+		width: calc(2dvh + 2vw);
+		height: calc(2dvh + 2vw);
+	}
+	
+	/* 1 слайд */
 	/* Фон */
 	.module-1 {
 		background-color: #000000;
@@ -218,12 +211,14 @@ picture{
 		padding: 0 20% 15dvh 20%;
 	}
 	
+	/* 2 слайд */
 	.module-2 {
 		background-color: #000000;
 		background-image: url('../images/mobile/2.jpg');
 		background-size: contain;
 	}
 	
+	/* 3 слайд */
 	/* Календарь */
 	.image.m3-1{
 		object-position: bootom;
@@ -239,33 +234,28 @@ picture{
 		object-position: top;
 	}
 	
+	/* 5 слайд */
 	.module-5 {
 		background-image: url('../images/mobile/5.jpg');
 		background-size: contain;
 	}
 	
+	/* 6 Слайд */	
 	/* Картинка подвала */	
 	.image.m6-1{ 
-		object-position: bottom; 
+		object-fit:fill;
+		object-position: bottom;
+		padding-top: 70dvh;
 	}
 	/* Текст сверху */
 	.image.m6-2{
 		object-position: top;
-		padding: 4dvh 10% 56% 10%
+		padding: 4dvh 10% 48% 10%
 	}
 	/* Текст в подвале */
 	.image.m6-3{
 		object-position: bottom; 
-		padding: 0px 5% 1% 5%;
+		padding: 86dvh 5% 1% 5%;
 	}
 	
-    .arrow{
-		width: calc(2dvh + 2vw);
-		height: calc(2dvh + 2vw);
-	}
 }
-
-/* Для очень маленьких экранов*/	
-@media (max-height: 500px) {
-}
-
