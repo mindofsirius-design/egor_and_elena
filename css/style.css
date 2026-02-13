@@ -13,10 +13,10 @@ html, body {
 	/*Отключаем класичиское передвижение по сайту*/
 	overscroll-behavior-y: none; 		/* для Safari */
 	-webkit-overflow-scrolling: touch;	/* для Safari */
-	overflow: hidden;		/* Скрыть скроллы !important*/
+	overflow: hidden;
 }
 body {
-    height: 100vh; height: 100dvh;
+    height: 100%;
 	min-height: -webkit-fill-available; /* для Safari */
 }
 
@@ -44,7 +44,8 @@ picture{
 }
 
 .modules-container-iphone {
-	overflow-y: auto;  /* Вертикальный скролл */
+	overflow-y: auto;
+	overflow-x: hidden;
 	scroll-snap-type: y mandatory; /* Привязка к точкам */
 }
 
@@ -82,52 +83,35 @@ picture{
     background-image: url('../images/arrow.svg');
     background-repeat: no-repeat;
     background-size: contain;
+	animation: bounce 2s infinite;
 	opacity: 0.6;
 }
-.arrow.up{
-	opacity: 0.4;
-	transform: rotate(180deg);
-}
+
 /* Стрелка вверх */
 .scroll-top-btn {
-	background: rgba(0, 0, 0, 0.4);
     position: fixed;
-    bottom: 5vh; bottom: 5dvh;
-	right: 1vw; right: 1dvw;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-	border: 0px;
-    cursor: pointer;
+    right: 2%;
+    bottom: 5%;
     z-index: 100;
-	display: flex;
-    justify-content: center;
-    align-items: center;
-	transition: all 0.2s ease;
-	-webkit-backdrop-filter: blur(3px); /* Для Safari */
-	backdrop-filter: blur(3px); 
-	opacity: 0;
-    visibility: hidden;
-    -webkit-tap-highlight-color: transparent; /* Для Safari */
-    touch-action: manipulation; /* Для Safari */
-	
+    cursor: pointer;
+    transition: all 0.3s ease;
+	transform: scaleY(-1);
+	mix-blend-mode: difference;
+    isolation: isolate; 
 }
 
-/* Стили для не-iOS браузеров */
+/* Стили для не-iOS браузеров 
 @supports not (-webkit-touch-callout: none) {
     .scroll-top-btn {
         mix-blend-mode: difference;
 		isolation: isolate; /* Изолирует элемент от фона */
-        background: rgba(255, 255, 255, 0.1);
     }
 	
-	.scroll-top-btn:hover {
-		background: rgba(255, 255, 255, 0.2);
-		border-color: rgba(255, 255, 255, 0.2);
+	/*.scroll-top-btn:hover {
 		transform: translateY(-10px) scale(1.05);
 		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 	}
-}
+}*/
 
 .scroll-top-btn.show {
     opacity: 1;
@@ -135,31 +119,8 @@ picture{
 	pointer-events: auto; /* Для Safari */
 }
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(40px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
 /* Стрелка вниз */
-.nav-arrow {
+.scroll-down-btn {
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
@@ -167,7 +128,6 @@ picture{
     z-index: 100;
     cursor: pointer;
     transition: all 0.3s ease;
-    animation: bounce 2s infinite;
 	
 	mix-blend-mode: difference;
 	/* Изолирует элемент от фона для правильной работы blend-mode*/
@@ -175,7 +135,7 @@ picture{
 	
 }
 
-.nav-arrow:hover {
+.scroll-down-btn:hover {
     opacity: 1;
     transform: translateX(-50%) scale(1.2);
 }
@@ -255,7 +215,7 @@ picture{
 	/* Основной текст */
 	.image.m1-4{
 		object-position: center bottom; 
-		padding: 0 20% 10dvh 20%;
+		padding: 0 20% 15dvh 20%;
 	}
 	
 	.module-2 {
@@ -282,19 +242,14 @@ picture{
 	/* Текст сверху */
 	.image.m6-2{
 		object-position: top;
-		padding: 4dvh 7dvw 200px 7dvw;
+		padding: 4dvh 10% 56% 10%
 	}
 	/* Текст в подвале */
 	.image.m6-3{
 		object-position: bottom; 
-		padding: 0px 15dvw 4dvh 5dvw;
+		padding: 0px 5% 1% 5%;
 	}
 	
-    .scroll-top-btn {
-        width: 50px;
-        height: 50px;
-        font-size: 1.2rem;
-	}
     .arrow{
 		width: calc(2dvh + 2vw);
 		height: calc(2dvh + 2vw);

@@ -100,9 +100,9 @@ class ScrollManager {
       
         // Кнопка "Вверх"
         if (indexModule > 0) {
-            this.scrollToTopBtn.classList.add('show');
+            this.scrollToTopBtn.style.display = '';
         } else {
-            this.scrollToTopBtn.classList.remove('show');
+            this.scrollToTopBtn.style.display = 'none';
         }
 
         // Кнопка "Вниз" - исправленная версия
